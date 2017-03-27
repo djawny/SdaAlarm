@@ -1,5 +1,8 @@
 package pl.sda.sdaAlarm;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.mainActivityTimePicker)
     TimePicker timePicker;
+    private AlarmManager alarmManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         timePicker.setIs24HourView(true);
+        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
     }
 
     @Override
@@ -68,7 +73,13 @@ public class MainActivity extends AppCompatActivity {
         int hour = getHour();
         int minutes = getMinutes();
         Calendar calendar = getCalendar(hour, minutes);
-        Log.d(TAG, String.valueOf(calendar.getTimeInMillis()));
+        setAlarm(calendar);
+    }
+
+    private void setAlarm(Calendar calendar) {
+        Intent startAlarmIntent = new Intent(this, AlarmActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, startAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
     @NonNull
@@ -81,13 +92,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private int getMinutes() {
-        int minutes;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            minutes = timePicker.getMinute();
-        } else {
-            minutes = timePicker.getCurrentMinute();
-        }
-        return minutes;
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? timePicker.getMinute() : timePicker.getCurrentMinute();
     }
 
     private int getHour() {
