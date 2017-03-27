@@ -12,20 +12,31 @@ public class BatteryBroadcastReceiver extends BroadcastReceiver {
 
     public static final int HOUR_DEF_VALUE = 22;
     public static final int MINUTES_DEF_VALUE = 0;
+    private SharedPreferences sharedPreferences;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         startMainActivity(context);
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SettingsDialogFragment.TAG_SHARED_PREFERENCES,
-                Context.MODE_PRIVATE);
-        int hour = sharedPreferences.getInt(SettingsDialogFragment.HOUR_KEY, HOUR_DEF_VALUE);
-        int minutes = sharedPreferences.getInt(SettingsDialogFragment.MINUTES_KEY, MINUTES_DEF_VALUE);
-
-        Calendar settingsTime = getCalendar(hour, minutes);
-
+        sharedPreferences = context.getSharedPreferences(SettingsDialogFragment.TAG_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        Calendar settingsTime = prepareCalendar();
         if (System.currentTimeMillis() > settingsTime.getTimeInMillis()) {
             startMainActivity(context);
         }
+    }
+
+    @NonNull
+    private Calendar prepareCalendar() {
+        int hour = getHourFromSharedPreferences();
+        int minutes = getMinutesFromSharePreferences();
+        return getCalendar(hour, minutes);
+    }
+
+    private int getMinutesFromSharePreferences() {
+        return sharedPreferences.getInt(SettingsDialogFragment.MINUTES_KEY, MINUTES_DEF_VALUE);
+    }
+
+    private int getHourFromSharedPreferences() {
+        return sharedPreferences.getInt(SettingsDialogFragment.HOUR_KEY, HOUR_DEF_VALUE);
     }
 
     private void startMainActivity(Context context) {
