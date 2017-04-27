@@ -1,4 +1,4 @@
-package pl.sda.sdaAlarm;
+package pl.sda.sdaAlarm.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TimePicker;
 
+import pl.sda.sdaAlarm.R;
 
 public class SettingsDialogFragment extends DialogFragment {
 

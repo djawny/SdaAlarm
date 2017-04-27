@@ -1,4 +1,4 @@
-package pl.sda.sdaAlarm;
+package pl.sda.sdaAlarm.broadcast_receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,6 +7,9 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import java.util.Calendar;
+
+import pl.sda.sdaAlarm.MainActivity;
+import pl.sda.sdaAlarm.dialog.SettingsDialogFragment;
 
 public class BatteryBroadcastReceiver extends BroadcastReceiver {
 

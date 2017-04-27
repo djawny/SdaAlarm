@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="pl.sda.sdaAlarm.SettingsDialogFragment">
+    tools:context="pl.sda.sdaAlarm.dialog.SettingsDialogFragment">
 
     <TimePicker
         android:id="@+id/settingsDialogTimePicker"
